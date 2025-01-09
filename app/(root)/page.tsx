@@ -1,6 +1,8 @@
 import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
 import StartupCard from "@/components/StartupCard";
+import {STARTUP_QUERY} from "@/sanity/lib/queries";
+import {client} from "@/sanity/lib/client";
 
 export default async function Home({searchParams} : {
     searchParams: Promise <{ query?: string }>
@@ -8,16 +10,10 @@ export default async function Home({searchParams} : {
 
     const query = (await searchParams).query;
 
-    const posts = [{
-        _createdAt: new Date(),
-        views: 55,
-        author: { _id: 1, name: 'Hassan' },
-        _id: 1,
-        description: "This is a description",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpcM_NnUtKjax_pOsKlthZGaj66_dsZ3Da5g&s",
-        category: "Robots",
-        title: "We Robots"
-    }]
+    const posts = await client.fetch(STARTUP_QUERY);
+
+
+
   return (
     <>
         <section className={"green_container"}>
